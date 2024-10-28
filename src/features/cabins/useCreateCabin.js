@@ -10,7 +10,10 @@ export function useCreateCabin() {
       toast.success("New cabin succesfully created");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => {
+      console.log(err);
+      toast.error(err.message);
+    },
   });
 
   return { isCreating, createCabin };
