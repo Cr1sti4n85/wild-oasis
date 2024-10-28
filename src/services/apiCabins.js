@@ -28,12 +28,12 @@ export async function createEditCabin(newCabin, id) {
 
   //ONLY CREATE
   if (!id) {
-    query.insert([{ ...newCabin, image: imagePath }]);
+    query = query.insert([{ ...newCabin, image: imagePath }]);
   }
 
   //ONLY EDIT
   if (id) {
-    query.update({ ...newCabin, image: imagePath }).eq("id", id);
+    query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
   }
   const { data, error } = await query.select().single();
 
