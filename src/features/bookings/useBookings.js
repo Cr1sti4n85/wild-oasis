@@ -14,14 +14,20 @@ export function useBookings() {
       : { field: "status", value: filterValue };
   // : { field: "totalPrice", value: filterValue, method: "gte" };
 
+  //SERVER SORTING
+  const sortByRaw = searchParams.get("sortBy") || "startDate-desc";
+  const [field, direction] = sortByRaw.split("-");
+
+  const sortBy = { field, direction };
+
   const {
     isLoading,
     data: bookings,
     error,
   } = useQuery({
-    //adding filter object to queryKey, when it changes, supabase refetches data
-    queryKey: ["bookings", filter],
-    queryFn: () => getBookings({ filter }),
+    //adding filter and sortBy object to queryKey; when it changes, supabase refetches data
+    queryKey: ["bookings", filter, sortBy],
+    queryFn: () => getBookings({ filter, sortBy }),
   });
 
   return { isLoading, error, bookings };
