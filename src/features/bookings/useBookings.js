@@ -20,15 +20,17 @@ export function useBookings() {
 
   const sortBy = { field, direction };
 
-  const {
-    isLoading,
-    data: bookings,
-    error,
-  } = useQuery({
+  //PAGINATION
+  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+
+  const { isLoading, data, error } = useQuery({
     //adding filter and sortBy object to queryKey; when it changes, supabase refetches data
-    queryKey: ["bookings", filter, sortBy],
-    queryFn: () => getBookings({ filter, sortBy }),
+    queryKey: ["bookings", filter, sortBy, page],
+    queryFn: () => getBookings({ filter, sortBy, page }),
   });
 
-  return { isLoading, error, bookings };
+  const bookings = data?.data || [];
+  const count = data?.count || 0;
+
+  return { isLoading, error, bookings, count };
 }
