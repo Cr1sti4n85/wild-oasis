@@ -33,32 +33,32 @@ const ChartBox = styled.div`
 const startDataLight = [
   {
     duration: "1 night",
-    value: 0,
+    value: 1,
     color: "#ef4444",
   },
   {
     duration: "2 nights",
-    value: 0,
+    value: 3,
     color: "#f97316",
   },
   {
     duration: "3 nights",
-    value: 0,
+    value: 6,
     color: "#eab308",
   },
   {
     duration: "4-5 nights",
-    value: 0,
+    value: 5,
     color: "#84cc16",
   },
   {
     duration: "6-7 nights",
-    value: 0,
+    value: 9,
     color: "#22c55e",
   },
   {
     duration: "8-14 nights",
-    value: 0,
+    value: 12,
     color: "#14b8a6",
   },
   {
@@ -145,7 +145,6 @@ function DurationChart({ confirmedStays }) {
   const { isDarkMode } = useDarkMode();
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, confirmedStays);
-  console.log(data);
   return (
     <ChartBox>
       <Heading as="h2">Stay Duration Summary</Heading>
@@ -161,13 +160,16 @@ function DurationChart({ confirmedStays }) {
             cy="50%"
             paddingAngle={3}
           >
-            {data.map((entry) => (
-              <Cell
-                fill={entry.color}
-                stroke={entry.color}
-                key={entry.duration}
-              />
-            ))}
+            {data.map((entry) => {
+              return (
+                <Cell
+                  fill={entry.color}
+                  stroke={entry.color}
+                  name={entry.duration}
+                  key={entry.duration}
+                />
+              );
+            })}
           </Pie>
           <Tooltip />
           <Legend
